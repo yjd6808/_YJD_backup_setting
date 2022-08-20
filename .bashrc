@@ -80,6 +80,6 @@ export SCM_CHECK=true
 # export BASH_IT_RELOAD_LEGACY=1
 
 # Load Bash It
-export POSH_THEME=~/.poshthemes/jdyun-original.omp.json
-source "$BASH_IT"/bash_it.sh
-source ~/Scripts/all.sh
+ export POSH_THEME=~/.poshthemes/jdyun-original.omp.json
+ source "$BASH_IT"/bash_it.sh
+ source ~/Scripts/all.sh
