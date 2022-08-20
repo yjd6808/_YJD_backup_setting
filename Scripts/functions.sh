@@ -120,28 +120,33 @@ backup() {
    
     if ! command_exist rm_; then
         return 1
-    fi
+    fi;
 
-    cd ~;
-    echo "1"
-    sudo mkdir -p .backup/temp/; if $? -ne 0; then echo mkdir -p .backup/temp/ : failed; return 1; fi 
+    local prev_path=$(pwd)
+    local remover=/usr/bin/rm
+
+    cd ~
+    sudo mkdir -p .backup/temp/; if [ $? -ne 0 ]; then echo mkdir -p .backup/temp/ : failed; return 1; fi 
 
     for f in .backup/*; do
-        if ! -d $f; then
+        if [ ! -d $f ]; then
             sudo mv $f .backup/temp/
-    echo "22"
+            if [ $? -ne 0 ]; then echo sudo mv $f .backup/temp/ : failed; return 1; fi
         fi
     done
 
-    sudo rm_ -f .backup/temp/; if $? -ne 0; then echo rm_ -f .backup/ : failed; return 1; fi
+    sudo $remover -rf .backup/temp/; if [ $? -ne 0 ]; then echo rm_ -f .backup/ : failed; return 1; fi
+    sudo cp -r Scripts/ .backup/; if [ $? -ne 0 ]; then echo cp -r Scripts/ .backup/ : failed; return 1; fi
+    sudo cp .bashrc .backup/; if [ $? -ne 0 ]; then echo cp .bashrc .backup/ : failed; return 1; fi
+    sudo cp .vimrc .backup/; if [ $? -ne 0 ]; then echo cp .vimrc .backup/ : failed; return 1; fi
 
-    echo "333"
-    sudo cp -r Scripts/ .backup/; if $? -ne 0; then echo cp -r Scripts/ .backup/ : failed; return 1; fi
-    sudo cp .bashrc .backup/; if $? -ne 0; then echo cp .bashrc .backup/ : failed; return 1; fi
-    sudo cp .vimrc .backup/; if $? -ne 0; then echo cp .vimrc .backup/ : failed; return 1; fi
-    git add .; if $? -ne 0; then echo git add . : failed; return 1; fi
-    git commit -m "auto commit"; if $? -ne 0; then echo git commit : failed; return 1; fi
-    git push; if $? -ne 0; then echo git commit : failed; return 1; fi
+    cd .backup
+
+    git add .; if [ $? -ne 0 ]; then echo git add . : failed; return 1; fi
+    git commit -m "auto commit"; if [ $? -ne 0 ]; then echo git commit : failed; return 1; fi
+    git push; if [ $? -ne 0 ]; then echo git commit : failed; return 1; fi
+
+    cd $prev
 
     return 0
 }
