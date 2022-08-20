@@ -147,6 +147,8 @@ backup() {
     git push; if [ $? -ne 0 ]; then echo git commit : failed; return 1; fi
 
     cd $prev
+    
+    echo "백업 완료"
 
     return 0
 }
