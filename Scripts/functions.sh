@@ -143,11 +143,17 @@ backup() {
     cd .backup
 
     git add .; if [ $? -ne 0 ]; then echo git add . : failed; return 1; fi
-    git commit -m "auto commit"; if [ $? -ne 0 ]; then echo git commit : failed; return 1; fi
-    git push; if [ $? -ne 0 ]; then echo git commit : failed; return 1; fi
+    git commit -m "auto commit"; 
+
+    if [ $? -eq 0 ]; then
+        git push; if [ $? -ne 0 ]; then echo git commit : failed; return 1; fi
+    else 
+        echo git commit : failed; 
+        cd $prev
+        return 1
+    fi
 
     cd $prev
-    
     echo "백업 완료"
 
     return 0
