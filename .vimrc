@@ -10,6 +10,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
+" Load the FileType autocommands if not done yet.
+
 
 " ================================================================
 " 코딩 관련 vim 설정
