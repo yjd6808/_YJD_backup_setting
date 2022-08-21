@@ -12,12 +12,10 @@ stderr_message() {
 command_exist() {
 
 	if [[ $# -eq 0 ]]; then
-		stderr_message '인자를 1개이상 넣어주세요.'
 		return 1
 	fi
 
 	if ! command -v $1  &> /dev/null; then
-		stderr_message "$1 명령을 찾을 수 없습니다." 
 		return 2
 	fi		
 	return 0
