@@ -1,4 +1,5 @@
 
+
 # If not running interactively, don't do anything
 case $- in
   *i*) ;;
@@ -80,6 +81,9 @@ export SCM_CHECK=true
 # export BASH_IT_RELOAD_LEGACY=1
 
 # Load Bash It
- export POSH_THEME=~/.poshthemes/jdyun-original.omp.json
- source "$BASH_IT"/bash_it.sh
- source ~/Scripts/all.sh
+export POSH_THEME=~/.poshthemes/jdyun-original.omp.json
+export VIMSPECTOR_PATH=~/.local/share/nvim/site/pack/packer/start/vimspector
+export NVIM_PATH=~/.confog/nvim
+source "$BASH_IT"/bash_it.sh
+source ~/Scripts/all.sh
+
