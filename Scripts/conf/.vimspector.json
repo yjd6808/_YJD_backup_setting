@@ -1,0 +1,18 @@
+{
+  "configurations": {
+    "cpptools": {
+      "adapter": "vscode-cpptools",
+      "variables": {
+        "BUILDME": {
+          "shell": "g++ -o ${workspaceRoot}/test -g -std=c++17 ${workspaceRoot}/main.cpp"
+        }
+      },
+      "configuration": {
+        "request": "launch",
+        "program": "${workspaceRoot}/test",
+        "stopOnEntry": true,
+        "MIMode": "gdb"
+      }
+    }
+  }
+}
