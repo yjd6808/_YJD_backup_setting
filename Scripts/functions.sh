@@ -39,7 +39,7 @@ theme_change() {
 		local theme_filename=${theme_list[${i}]}
 
 		# ${변수%문자열} 변수의 뒷부분 부터 일치하는 문자열을 삭제해줌
-		printf "\t%3d) %s\n" ${i} ${theme_filename%.omp.json}
+		printf "\t%3d) %s\n" ${i} ${theme_filename} 
 	done
 	
 	read -p "바꿀 테마의 번호를 선택해주세요." choose 
@@ -116,16 +116,13 @@ alias "lsh=sudo ls -Al | awk    '{cmd = \"sha1sum \"\$NF
 # 스크립트들 깃허브에 백업
 backup() {
    
-    if ! command_exist rm_; then
-        return 1
-    fi;
-
     local prev_path=$(pwd)
     local remover=/usr/bin/rm
 
     cd ~
     sudo mkdir -p .backup/temp/; if [ $? -ne 0 ]; then echo mkdir -p .backup/temp/ : failed; return 1; fi 
 
+	# ~/.backup 폴더의 파일들을 순회하면서 디렉토리 타입이 아닌 파일들을 .backup/temp로 옮겨준다.
     for f in .backup/*; do
         if [ ! -d $f ]; then
             sudo mv $f .backup/temp/
@@ -155,4 +152,36 @@ backup() {
     echo "백업 완료"
 
     return 0
+}
+
+# 특정 경로의 파일을 복사해서 가져올 수 있도록 한다.
+pick_file() {
+	if [ ! -d $1 ] || test -v $1 ; then
+		echo 디렉토리 경로를 인자로 전달해주세요.
+		return 1;
+	fi
+
+	local dir=$1
+	local dir_contents=($(ls -A $dir))
+	local dir_contents_count=${#dir_contents[@]}
+	echo ${dir_contents_count}
+
+	for i in ${!dir_contents[@]}; do
+		local filename=${dir_contents[${i}]}
+		local filetype=$(eval file -b ${dir}/${filename} | cut -f1 -d ',')
+
+		# ${변수%문자열} 변수의 뒷부분 부터 일치하는 문자열을 삭제해줌
+		printf "\t%3d) %-50s | %s\n" ${i} ${filename} "${filetype}"
+	done
+	
+	read -p "현재 경로로 복사해올 파일을 선택해주세요." choose 
+
+	if [[ $choose -lt 0 || $choose -ge ${dir_contents_count} ]]; then		
+		stderr_message '입력한 번호의 파일이 없습니다.' 
+		return 1
+	fi
+
+	
+	sudo cp -rf "${dir}/${dir_contents[${choose}]}" .
+	return 0
 }
