@@ -180,8 +180,10 @@ pick_file() {
 		stderr_message '입력한 번호의 파일이 없습니다.' 
 		return 1
 	fi
-
+ 
 	
 	sudo cp -rf "${dir}/${dir_contents[${choose}]}" .
-	return 0
+	return $?
 }
+
+

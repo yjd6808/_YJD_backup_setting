@@ -1,3 +1,4 @@
+export HISTCONTROL=ignoreboth:erasedup
 export POSH_THEME=~/.poshthemes/jdyun-original.omp.json
 export VIMSPECTOR_PATH=~/.local/share/nvim/site/pack/packer/start/vimspector
 export NVIM_PATH=~/.config/nvim
